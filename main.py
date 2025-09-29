@@ -8,7 +8,6 @@ from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 from sklearn.model_selection import train_test_split
 from sklearn.feature_selection import VarianceThreshold, SelectKBest, f_classif
 from imblearn.over_sampling import SMOTE
-from sklearn.decomposition import PCA
 
 # ========== PERSIAPAN DATA ==========
 df = pd.read_csv("risk_factors_cervical_cancer.csv")
