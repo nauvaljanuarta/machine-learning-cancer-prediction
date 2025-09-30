@@ -68,6 +68,7 @@ print("\nFitur terpilih dari seleksi ANOVA:")
 print(selected_features)
 
 # 6. Split Data
+# ===============================
 X_train, X_test, y_train, y_test = train_test_split(
     X[selected_features], y, test_size=0.2, random_state=1, stratify=y
 )
@@ -75,7 +76,9 @@ X_train, X_test, y_train, y_test = train_test_split(
 print("\nJumlah data train:", X_train.shape[0])
 print("Jumlah data test:", X_test.shape[0])
 
+# ===============================
 # 7. SMOTE Balancing (hanya train)
+# ===============================
 print("\nDistribusi kelas sebelum SMOTE (data train):")
 print(y_train.value_counts())
 

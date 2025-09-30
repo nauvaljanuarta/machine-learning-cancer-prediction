@@ -76,6 +76,7 @@ print("\nJumlah data train:", X_train.shape[0])
 print("Jumlah data test:", X_test.shape[0])
 
 # 7. SMOTE Balancing (hanya train)
+# ===============================
 print("\nDistribusi kelas sebelum SMOTE (data train):")
 print(y_train.value_counts())
 

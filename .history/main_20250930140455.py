@@ -10,6 +10,7 @@ from sklearn.feature_selection import SelectKBest, f_classif
 from imblearn.over_sampling import SMOTE
 
 # 1. Membaca Data
+# ===============================
 df = pd.read_csv("risk_factors_cervical_cancer.csv")
 
 # Ganti string anomali dengan NaN
@@ -21,23 +22,27 @@ df = df.apply(pd.to_numeric, errors='coerce')
 print("5 data teratas:")
 print(df.head())
 
+# ===============================
 # 2. Cek Missing Values
+# ===============================
 print("\nCek Missing Values:")
 print(df.isnull().sum())
 
-
+# ===============================
 # 3. Handling Missing Values
-
+# ===============================
 # Isi NaN dengan median per kolom
 df.fillna(df.median(), inplace=True)
 
 print("\nSetelah handling missing values:")
 print(df.isnull().sum())
 
+# ===============================
 # 4. Normalisasi Min-Max
+# ===============================
 numeric_cols = df.drop("Biopsy", axis=1).columns
 
-# Dengan Library
+# --- Dengan Library ---
 scaler = MinMaxScaler()
 df_minmax_lib = df.copy()
 df_minmax_lib[numeric_cols] = scaler.fit_transform(df[numeric_cols])
@@ -45,7 +50,7 @@ df_minmax_lib[numeric_cols] = scaler.fit_transform(df[numeric_cols])
 print("\n=== Normalisasi Min-Max (Library), 5 baris pertama ===")
 print(df_minmax_lib[numeric_cols].head())
 
-# Dengan Rumus Manual
+# --- Dengan Rumus Manual ---
 df_minmax_manual = df.copy()
 for col in numeric_cols:
     min_val = df[col].min()
@@ -55,7 +60,9 @@ for col in numeric_cols:
 print("\n=== Normalisasi Min-Max (Manual), 5 baris pertama ===")
 print(df_minmax_manual[numeric_cols].head())
 
+# ===============================
 # 5. Seleksi Fitur dengan ANOVA
+# ===============================
 X = df_minmax_lib.drop("Biopsy", axis=1)
 y = df_minmax_lib["Biopsy"]
 
@@ -67,7 +74,9 @@ selected_features = X.columns[mask]
 print("\nFitur terpilih dari seleksi ANOVA:")
 print(selected_features)
 
+# ===============================
 # 6. Split Data
+# ===============================
 X_train, X_test, y_train, y_test = train_test_split(
     X[selected_features], y, test_size=0.2, random_state=1, stratify=y
 )
@@ -75,7 +84,9 @@ X_train, X_test, y_train, y_test = train_test_split(
 print("\nJumlah data train:", X_train.shape[0])
 print("Jumlah data test:", X_test.shape[0])
 
+# ===============================
 # 7. SMOTE Balancing (hanya train)
+# ===============================
 print("\nDistribusi kelas sebelum SMOTE (data train):")
 print(y_train.value_counts())
 
