@@ -4,7 +4,7 @@ warnings.filterwarnings("ignore")
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import MinMaxScaler, LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.feature_selection import SelectKBest, f_classif
 from imblearn.over_sampling import SMOTE
@@ -89,29 +89,25 @@ print("Jumlah data test:", X_test.shape[0])
 # 7. SMOTE Balancing (hanya train)
 # ===============================
 print("\nDistribusi kelas sebelum SMOTE (data train):")
-print(y_train.value_counts().rename({0: "Sehat (0)", 1: "Kanker Serviks (1)"}))
+print(y_train.value_counts())
 
 smote = SMOTE(random_state=42)
 X_train_res, y_train_res = smote.fit_resample(X_train, y_train)
 
 print("\nDistribusi kelas sesudah SMOTE (data train):")
-print(pd.Series(y_train_res).value_counts().rename({0: "Sehat (0)", 1: "Kanker Serviks (1)"}))
+print(pd.Series(y_train_res).value_counts())
 
 # Visualisasi distribusi kelas sebelum & sesudah SMOTE
 fig, axes = plt.subplots(1, 2, figsize=(10, 4))
 
-y_train.value_counts().sort_index().plot(
-    kind="bar", ax=axes[0], color=["skyblue", "salmon"]
-)
+y_train.value_counts().sort_index().plot(kind="bar", ax=axes[0], color=["skyblue", "salmon"])
 axes[0].set_title("Distribusi Kelas Train Sebelum SMOTE")
-axes[0].set_xlabel("Kelas (0 = Sehat, 1 = Kanker Serviks)")
+axes[0].set_xlabel("Kelas")
 axes[0].set_ylabel("Jumlah Sampel")
 
-pd.Series(y_train_res).value_counts().sort_index().plot(
-    kind="bar", ax=axes[1], color=["skyblue", "salmon"]
-)
+pd.Series(y_train_res).value_counts().sort_index().plot(kind="bar", ax=axes[1], color=["skyblue", "salmon"])
 axes[1].set_title("Distribusi Kelas Train Sesudah SMOTE")
-axes[1].set_xlabel("Kelas (0 = Sehat, 1 = Kanker Serviks)")
+axes[1].set_xlabel("Kelas")
 axes[1].set_ylabel("Jumlah Sampel")
 
 plt.tight_layout()
