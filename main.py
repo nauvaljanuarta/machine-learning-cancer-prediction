@@ -4,6 +4,7 @@ warnings.filterwarnings("ignore")
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 from sklearn.preprocessing import MinMaxScaler, LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.feature_selection import SelectKBest, f_classif
@@ -66,6 +67,25 @@ selected_features = X.columns[mask]
 
 print("\nFitur terpilih dari seleksi ANOVA:")
 print(selected_features)
+
+# === Tambahan: Tabel skor ANOVA untuk semua fitur ===
+anova_scores = pd.DataFrame({
+    "Fitur": X.columns,
+    "Skor ANOVA": selector.scores_
+}).sort_values(by="Skor ANOVA", ascending=False)
+
+print("\nHasil Skor ANOVA Semua Fitur:")
+print(anova_scores)
+
+# Visualisasi 15 fitur teratas
+plt.figure(figsize=(10,6))
+sns.barplot(x="Skor ANOVA", y="Fitur", data=anova_scores.head(15))
+plt.title("15 Fitur Teratas Berdasarkan Skor ANOVA")
+plt.tight_layout()
+plt.savefig("anova_feature_selection.png")
+plt.show()
+
+print("\nGrafik disimpan ke anova_feature_selection.png")
 
 # 6. Split Data
 X_train, X_test, y_train, y_test = train_test_split(
